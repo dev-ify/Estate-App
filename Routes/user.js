@@ -4,9 +4,10 @@ const csvtojson=require("csvtojson")
 const file=require("express-fileupload")
 const path=require("path")
 const fs = require('fs');
+const {v4 : uuidv4} = require('uuid')
 const Json2csvParser = require('json2csv').Parser;
 
-
+  const newId = uuidv4()
 
 exports.delete_resident=(req,res)=>{
  let {id} =req.params
@@ -70,7 +71,7 @@ on user.userId=business_meta.userId where user.userId=${id}`
 
 exports.edit_user=(req,res)=>{
       let {id} =req.params
-      console.log(req.body)
+      
       let body=req.body
        let body_roles=JSON.stringify(body.role.trim())
       let telephone=JSON.stringify(body.telephone.trim());
@@ -174,9 +175,10 @@ exports.edit_user_user=(req,res)=>{
   }) 
  }
    else if(req.files){
+    
      let image=req.files.image
-    let img_name=image.name.replace(/\s+/g, '')
-    let img=JSON.stringify(image.name.replace(/\s+/g, ''))
+    let img_name=newId
+    let img=JSON.stringify(newId)
       let uploadDir=path.join(path.dirname(__dirname),"static_css/upload",img_name)
 
       if(image.mimetype=="image/jpeg" || image.mimetype=="image/png"){
@@ -299,15 +301,16 @@ exports.get_dom_staff=(req,res)=>{
 
       let {id} =req.params
       let body=req.body
-      let username= JSON.stringify(body.username.trim());
-      let houseNo=body.houseNo.trim();
-      let telephone=JSON.stringify(body.telephone.trim());
-      let fullname= JSON.stringify(body.name.trim());
-      let driveNo=body.driveNo.trim()
-      let status=JSON.stringify(body.status.trim())
+     
       
 
- 
+  let username= body.username.trim();
+      let houseNo=body.houseNo.trim();
+      let telephone=body.telephone.trim();
+      let fullname= body.name.trim();
+      let driveNo=body.driveNo.trim()
+      let status=body.status.trim()
+      
         
 if(req.body.password === ""){
    console.log(req.body.password)
@@ -326,6 +329,12 @@ fullname,status,id
   }) 
    }
   else {
+     let username= JSON.stringify(body.username.trim());
+      let houseNo=body.houseNo.trim();
+      let telephone=JSON.stringify(body.telephone.trim());
+      let fullname= JSON.stringify(body.name.trim());
+      let driveNo=body.driveNo.trim()
+      let status=JSON.stringify(body.status.trim())
         let password=JSON.stringify(bcrypt.hashSync(body.password.trim(),14))
    let sql=`update tenant set username=${username},telephone=${telephone},password=${password},fullname=${fullname}, status=${status} where tenId=?`
 
@@ -352,8 +361,8 @@ exports.update_resident_profile=(req,res)=>{
  if(req.files){
     
      let image=req.files.image
-      let img_name=image.name
-      let img=JSON.stringify(image.name)
+      let img_name=newId
+   
       let sql="update tenant set username=?,telephone=?,fullname=?,image=? where tenId=?"
       let uploadDir=path.join(path.dirname(__dirname),"static_css/upload",img_name)
 
@@ -365,7 +374,6 @@ exports.update_resident_profile=(req,res)=>{
                      }
                      connection.query(sql,[username,telephone,
                      fullname,
-                     password,
                      img_name,id
 
                      ],(err,result)=>{
@@ -382,7 +390,6 @@ let sql="update tenant set username=?,telephone=?,fullname=? where tenId=?"
 connection.query(sql,
 [username,telephone,
 fullname,
-password,
 id
 
 ],(err,result)=>{
@@ -729,9 +736,9 @@ csvtojson().fromFile(path.resolve(__dirname,"../static_css/data","data2.csv")).t
         else    if(req.files.image ){
 if(req.files.image.mimetype=="image/jpeg" || req.files.image.mimetype=="image/png"){
    let image=req.files.image 
-   let img_name=image.name
+   let img_name=newId
 
-      let img=JSON.stringify(image.name)
+      let img=JSON.stringify(newId)
       let uploadDir=path.join(path.dirname(__dirname),"static_css/upload",img_name)
          image.mv(uploadDir,function(err) {                           
                      if (err){
@@ -842,9 +849,8 @@ exports.add_occupants=(req,res)=>{
         else    if(req.files.image ){
 if(req.files.image.mimetype=="image/jpeg" || req.files.image.mimetype=="image/png"){
    let image=req.files.image 
-   let img_name=image.name
-
-      let img=JSON.stringify(image.name)
+   let img_name=newId 
+      let img=JSON.stringify(newId)
       let uploadDir=path.join(path.dirname(__dirname),"static_css/upload",img_name)
          image.mv(uploadDir,function(err) {                           
                      if (err){
@@ -1085,12 +1091,12 @@ exports.add_deposit=(req,res)=>{
             }); 
                         }
                      
-    else if(req.files.image.mimetype=="image/jpeg" || req.files.image.mimetype=="image/png"){
-     
+    else if(req.files.image.mimetype=="image/jpeg" || req.files.image.mimetype=="image/png"){ 
+     let image=req.files.image
+      let img_name=JSON.stringify(newId)
+      let img=JSON.stringify(newId)
       let uploadDir=path.join(path.dirname(__dirname),"static_css/upload",img_name)
-      let image=req.files.image
-      let img_name=image.name.replace(/\s+/g, '')
-      let img=JSON.stringify(image.name.replace(/\s+/g, ''))
+    
          image.mv(uploadDir,(err)=> {                           
                      if (err){
                      console.log(err)
@@ -1215,8 +1221,8 @@ exports.make_payment_resident=(req,res)=>{
    
     else if(req.files){
      let image=req.files.image
-      let img_name=image.name.replace(/\s+/g, '')
-      let img=JSON.stringify(image.name.replace(/\s+/g, ''))
+      let img_name=newId
+      let img=JSON.stringify(newId)
       let uploadDir=path.join(path.dirname(__dirname),"static_css/upload",img_name)
 
       if(image.mimetype=="image/jpeg" || image.mimetype=="image/png"){
@@ -1259,8 +1265,8 @@ exports.make_payment=(req,res)=>{
    
    else if(req.files){
      let image=req.files.image
-      let img_name=image.name
-      let img=JSON.stringify(image.name)
+      let img_name=newId
+      let img=JSON.stringify(newId)
       let uploadDir=path.join(path.dirname(__dirname),"static_css/upload",img_name)
 
       if(image.mimetype=="image/jpeg" || image.mimetype=="image/png"){
@@ -1302,8 +1308,8 @@ exports.make_payment_user=(req,res)=>{
    else if(req.files){
     
      let image=req.files.image
-      let img_name=image.name.replace(/\s+/g, '')
-      let img=JSON.stringify(image.name.replace(/\s+/g, ''))
+      let img_name=newId
+      let img=JSON.stringify(newId)
       let uploadDir=path.join(path.dirname(__dirname),"static_css/upload",img_name)
 
       if(image.mimetype=="image/jpeg" || image.mimetype=="image/png"){
@@ -2002,8 +2008,8 @@ exports.shuttle_deposit= (req,res)=>{
    else if(req.files){
     
      let image=req.files.image
-      let img_name=image.name.replace(/\s+/g, '')
-      let img=JSON.stringify(image.name.replace(/\s+/g, ''))
+      let img_name=newId
+      let img=JSON.stringify(newId)
       let uploadDir=path.join(path.dirname(__dirname),"static_css/upload",img_name)
 
       if(image.mimetype=="image/jpeg" || image.mimetype=="image/png"){

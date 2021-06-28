@@ -24,18 +24,19 @@
           <th class="bg-blue-100 border text-left px-8 py-4">Telephone</th>
 
           <th class="bg-blue-100 border text-left px-8 py-4">Home Address</th>
-          <th class="bg-blue-100 border text-left px-8 py-4">Location</th>
+          <th class="bg-blue-100 border text-left px-8 py-4">Origin</th>
           <th class="bg-blue-100 border text-left px-8 py-4">Status</th>
           <th class="bg-blue-100 border text-left px-8 py-4">Action</th>
         </tr>
 
         <% if (body){%> <% for (let i=0; i < body.length; i++){%>
         <tr>
-         
-          <td class=" px-8 "><%=(i +1)%></td>
-<td class=" px-8 ">  <% if (body[i].image ){%>
+      <tr>
+          <td class="border px-8 py-4"><%=(i +1)%></td>
+          <td class="border md:px-8 sm:px-0 ">
+<% if (body[i].image ){%>
                                 
-  <img src=/upload/<%=body[i].image%> class="object-cover rounded-full" style="height:70px; width:70px;" alt=""/>
+  <img src=/upload/<%=body[i].image%> class="object-cover rounded-full sm:ml-2" style="height:70px; width:70px;" alt=""/>
                                
                          
                              
@@ -50,14 +51,14 @@
                                     <% } %>
 
                               </td>
-          <td class=" px-8 "><%=body[i].fullname%></td>
-          <td class=" px-8 "><%=body[i].telephone%></td>
+          <td class="border px-8 "><%=body[i].fullname%></td>
+          <td class="border px-8 "><%=body[i].telephone%></td>
 
         
-          <td class=" px-8 "><%=body[i].address%></td>
-          <td class=" px-8 "><%=body[i].location%></td>
-          <td class=" px-8 "><%=body[i].status%></td>
-          <td class=" px-8 py-4 flex">
+          <td class="border px-8 "><%=body[i].address%></td>
+          <td class="border px-8 "><%=body[i].location%></td>
+          <td class="border px-8 "><%=body[i].status%></td>
+          <td class="border px-8 py-4 flex">
             <a
               class="rounded bg-red-700 px-6 py-2"
               href="#"

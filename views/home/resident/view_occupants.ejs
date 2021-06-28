@@ -27,10 +27,10 @@
         <% if (body){%> <% for (let i=0; i < body.length; i++){%>
         <tr>
           <td class="border px-8 py-4"><%=(i +1)%></td>
-          <td class=" px-8 ">
+          <td class="border px-8 md:px-8 sm:px-0 ">
 <% if (body[i].image ){%>
                                 
-  <img src=/upload/<%=body[i].image%> class="object-cover rounded-full" style="height:70px; width:70px;" alt=""/>
+  <img src=/upload/<%=body[i].image%> class="object-cover rounded-full sm:ml-2" style="height:70px; width:70px;" alt=""/>
                                
                          
                              
@@ -50,7 +50,7 @@
           <td class="border px-4 py-2"><%=body[i].gender%></td>
           <td class="border px-8 py-4"><%=body[i].status%></td>
           
-         <td class=" px-8 py-4 flex">
+         <td class="border px-8 py-4 flex">
             <a
               class="rounded bg-red-700 px-6 py-2"
               href="#"
@@ -58,12 +58,7 @@
               onclick="get_id(<%=body[i].id%>)"
               ><span class="font-bold">Delete</span></a
             >
-            <a
-              class="rounded border-2 border-grey-300 px-6 py-2  ml-2 "
-              href="/resident/edit/occupant/<%=body[i].id%>"
-            >
-              <span class="font-bold">Edit</span>
-            </a>
+           
           </td>
          </tr>
         <% } %> <% } %>

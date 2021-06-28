@@ -1,102 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="/css/tailwind.css">
-    <style>
- #submit{
-     position: relative;
- }
-.loading .text{
-     visibility: hidden;
-     opacity: 0;
- }
-.loading::after{
-    content: "";
-   
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    
-     top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
-    border: 5px solid transparent;
-    border-top-color:#fff ;
-    border-radius: 50%;
-    animation: button-loading 1s linear infinite;
-
-}
-@keyframes button-loading {
-    from {
-        transform: rotate(0turn);
-    }
-    to{
-        transform: rotate(1turn);
-    }
-}
-    </style>
-</head>
-
-<body class="antialiased">
-    <header class="h-16 flex items-center border-b border-grey-300">
-        <aside class="px-4 w-32 flex items-center justify-center">
-            <h1 class="font-bold">P.P.E.M.A</h1>
-        </aside>
-
-        <nav class="h-full flex-1 flex items-center justify-center ">
-            <ul class="h-16 flex space-x-3">
-                <li class="h-16 flex items-center"><a href="/resident/dashboard">Home</a></li>
-                <li class="h-16 flex items-center border-b border-indigo-700 "><a
-                        href="/resident/view/deposit">Payments</a></li>
-               
-               
-                <li class="h-16 flex items-center "><a href="/resident/dashboard/view/domestic">
-                        Staffs</a></li>
-
-            </ul>
-
-        </nav>
-        <aside class="flex items-center pr-3 space-x-3">
-            <button
-          class="rounded-full hover:bg-gray-300 h-12 w-12 flex items-center justify-center"
-        >
-        <a href="/resident/logout">
-   <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#000000"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path
-              d="M10 3H6a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h4M16 17l5-5-5-5M19.8 12H9"
-            />
-          </svg>
-        </a>
-       
-        </button>
-        </aside>
-    </header>
-
-    <body class="bg-gray-100 flex bg-local" style="background: url('./assets/svg/architect.svg')">
-<form id="btn">
-        <div class="bg-gray-100 mx-auto max-w-6xl bg-white py-20 px-12 lg:px-24 shadow-xl mb-24">
-            <section class="py-8" >
-                <h3 class="text-center font-bold text-lg">
-                    Add Payment Information
-
-                </h3>
-            </section>
+<%- include('./partial/header'); %>
+ <div class="bg-gray-100 mx-auto max-w-6xl bg-white py-20 px-12 lg:px-24 shadow-xl mb-24">
+ <section class="py-8 relative">
+     <a href="#" onclick=back() class="nav__link absolute left-0">
+    <i class="material-icons nav__icon">arrow_back</i>
+    <span class="nav__text font-body md:visible sm:invisible">Back</span>
+  </a>
+            <h3 class="text-center font-bold text-lg">Add Payment Info</h3>
+          </section>
+            <form id="btn">
             <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col sm:bg-white -mx-10 ">
                
                 <div class="-mx-3 md:flex mb-6">
@@ -120,7 +31,7 @@
                 <div class="-mx-3 md:flex mb-6">
                     <div class="md:w-full px-3">
                         <label class="uppercase tracking-wide text-black text-xs font-bold mb-2" for="application-link">
-                            Ref No / Receipt No *
+                            Teller No / Receipt No *
                         </label>
                         <input name="address" required
                             class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
@@ -145,7 +56,7 @@
 
                 <div class="-mx-3 md:flex mt-2">
                     
-                    <button id="submit"  type="submit" onclick="load()" class="md:w-full bg-gray-900 text-white font-bold py-2 px-4  rounded-full  cursor-pointer ">
+                    <button id="submit"  type="submit" onclick="load()" class="md:w-full bg-gray-900 relative text-white font-bold py-2 px-4  cursor-pointer ">
                         <span class="text">
                             Record Payment
                         </span>
@@ -154,7 +65,7 @@
             </div>
 
 
-            <h4 id="matchlist" class="text-green font-bold py-2 px-4 border-b-4 ">
+            <h4 id="matchlist" class="text-green font-bold py-2 px-4  ">
 
             </h4>
         </div>
@@ -197,9 +108,7 @@
                 obj.payee.value = "";
                 obj.amount.value = "";
                 
-                 
-                console.log(xhr.responseText)
-            }
+ }
 
             xhr.open("post", "/resident/add/deposit", true);
 
@@ -207,7 +116,9 @@
                 formData
             )
             }
-
+ function back() {
+               history.back(-1)
+            }
     </script>
 
 </html>

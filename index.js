@@ -82,7 +82,7 @@ app.use((req, res, next)=> {
 });
 
         app.post("/admin/verify",router)
-        app.post("/resident/add/deposit",router)
+        app.post("/resident/add/deposit",redirectResidentPost,router)
         app.post("/tenant/verify",router)
         app.get("/home/dashboard",redirectUser,router)
         app.get("/get/users",router)
@@ -302,8 +302,8 @@ res.render("home/admin/business_rejected.ejs")
         })
         app.get("/domestic/search/:name",router)
         app.get("/admin/download/business",router)
-        app.get("/profile/edit",router)
-        app.post("/resident/update/profile",router)
+        app.get("/profile/edit",redirectResident,router)
+        app.post("/resident/update/profile",redirectResident,router)
         app.get("/shuttle/manager/home",router)
         app.get("/user/shuttle/management",router)
         app.post("/revenue/type",redirectUser,router)
@@ -371,7 +371,7 @@ res.render("home/admin/business_rejected.ejs")
                 res.render("error.ejs")
             })
        
-       app.get("/resident/dashboard/add",(req,res)=>{
+       app.get("/resident/dashboard/add",redirectResident,(req,res)=>{
                 res.render("home/resident/add_dom_staff.ejs")
             })
         app.get("/admin/houses/add",(req,res)=>{

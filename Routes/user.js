@@ -21,8 +21,8 @@ exports.fake=(req,res)=>{
    res.send("user Made")
 }
 exports.user_list=(req,res)=>{
-   let sql=`Select User.fullname,User.image,User.telephone,role,username,status,userId  
-from User where role Not in ("ShuttleOwner","BusinessOwner")
+   let sql=`Select user.fullname,user.image,user.telephone,role,username,status,userId  
+from user where role Not in ("ShuttleOwner","BusinessOwner")
 `
    connection.query(sql,(err,result)=>{
       res.send({
@@ -206,17 +206,18 @@ exports.update_business=(req,res)=>{
       let shop_name= body.shop_name;
       let telephone=body.telephone;
       let fullname= body.name;
-      let no_bus= body.no_bus;
+      let no_shop= body.no_shop;
       let status=body.status
       
 if(req.body.password === ""){
- let sql="update user set username=?,telephone=?,fullname=?,status=?,no_bus=? where userId=?"
-   let sql1=`update business_meta set shop_name=? where userId=${id}`
+ let sql="update user set username=?,telephone=?,fullname=?,status=? where userId=?"
+   let sql1=`update business_meta set shop_name=?,no_shops=? where userId=${id}`
   
    connection.query(sql,[username,telephone,
-fullname,status,no_bus,id
+fullname,status,id
 ],(err,result)=>{
-   connection.query(sql1,[shop_name],(err,result)=>{
+   if (err) throw err
+   connection.query(sql1,[shop_name,no_shop],(err,result)=>{
 
    if (err) throw err
    else res.send("User Has Been Updated Successfully")
@@ -225,13 +226,14 @@ fullname,status,no_bus,id
 }
 else {
    let password=bcrypt.hashSync(body.password.trim(),14)
- let sql="update user set username=?,telephone=?,password=?,fullname=?,status=?,no_bus where userId=?"
-   let sql1=`update business_meta set shop_name=? where userId=${id}`
+ let sql="update user set username=?,telephone=?,password=?,fullname=?,status=? where userId=?"
+   let sql1=`update business_meta set shop_name=?,no_shops=? where userId=${id}`
   
    connection.query(sql,[username,telephone,password,
-fullname,status,no_bus,id
+fullname,status,id
 ],(err,result)=>{
-   connection.query(sql1,[shop_name],(err,result)=>{
+   if (err) throw err
+   connection.query(sql1,[shop_name,no_shop],(err,result)=>{
 
    if (err) throw err
    // else  res.redirect("/admin/list/tenant")
@@ -1151,7 +1153,7 @@ exports.u_password=(req,res)=>{
 exports.residents=(req,res)=>{
    let driveNo=req.params.drive
     const sql = `SELECT tenant.fullname,tenant.tenId ,tenant.image ,tenant.telephone, resident_house.houseNo, resident_house.houseType,resident_house.driveNo,tenant.status
-      FROM tenant INNER JOIN resident_house ON tenant.tenId=resident_house.telId  where driveNo=${driveNo} ORDER BY  resident_house.houseNo  ASC `;
+      FROM tenant INNER JOIN resident_house ON tenant.tenId=resident_house.telId  where driveNo=${driveNo}  `;
          connection.query(sql, function(err, result) {
             console.log(err)
             res.send({result})

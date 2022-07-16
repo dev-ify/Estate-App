@@ -86,6 +86,14 @@ app.use((req, res, next)=> {
         app.post("/tenant/verify",router)
         app.get("/home/dashboard",redirectUser,router)
         app.get("/get/users",router)
+
+        app.get("/update/resident/id",router)
+        app.get("/update/business/id",router)
+        app.get("/update/occupant/id",router)
+        
+
+
+
         app.get("/begin",(req,res)=>{
            res.render("home/admin/dashboard_copy.ejs")
             })

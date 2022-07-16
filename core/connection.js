@@ -5,7 +5,8 @@ let connection=mysql.createConnection({
     host:"localhost",
     user:"root",
     // password:"pnpexecutives",
-    password:"Ifeanyi@09054114402",
+    // Ifeanyi@09054114402
+    password:"Password1230",
     database:"nnenna"
 })
 connection.connect((err)=>{

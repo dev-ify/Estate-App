@@ -3,7 +3,7 @@ const router= express.Router()
 const body_parser=require("body-parser")
 let user=require("./user")
 const session=require("express-session")
-
+let updateV2=require("./updateV2")
 const app=express()
 app.use(body_parser.json())
 app.use(body_parser.urlencoded({extended:false}))
@@ -39,6 +39,13 @@ router.get("/apartment/drives/:drive",user.apartments_search)
 router.get("/admin/houses",user.house_list)
 router.get("/profile/edit",user.get_profile)
 router.get("/upload/file",user.import_data)
+
+router.get("/update/resident/id",updateV2.update_resident_id)
+router.get("/update/business/id",updateV2.update_business_id)
+router.get("/update/occupant/id",updateV2.update_occupant)
+
+
+
 router.get("/apartment/edit/:id",user.apartments_edit)
 router.post("/resident/add/deposit",user.add_deposit)
 router.get("/resident/view/deposit",user.resident_get_deposit)

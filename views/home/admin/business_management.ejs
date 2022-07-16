@@ -84,10 +84,15 @@
                                        Operator Name
                                         
                                     </td>
+                                    <td>
+                                      UId
+                                       
+                                   </td>
                                 <td>
                                        Shop Name
                                         
                                     </td>
+                                    
                             
                                 <td>
                                         Telephone No
@@ -294,6 +299,7 @@ if(data.result[i].status=="Active"){
  `<td>${i+1}</td>`+
 
  `<td>`+data.result[i].fullname +`</td>`+
+ `<td>${data.result[i].unique_id} </td>`+
   `<td>${data.result[i].shop_name} </td>`+
  `<td>${data.result[i].telephone  }</td>`+
   `<td>${data.result[i].no_shop  }</td>`+
@@ -320,6 +326,7 @@ else{
 tr.innerHTML=
  `<td>${i+1}</td>`+
  `<td>`+data.result[i].fullname +`</td>`+
+ `<td>${data.result[i].unique_id} </td>`+
  `<td>${data.result[i].shop_name} </td>`+
   `<td>${data.result[i].telephone} </td>`+
    `<td>${data.result[i].no_shop  }</td>`+

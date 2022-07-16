@@ -87,6 +87,10 @@
                                         Name Of Resident
                                         
                                     </td>
+                                    <td>
+                                      UId
+                                      
+                                  </td>
                                 <td>
                                         Telephone No
                                         
@@ -297,6 +301,7 @@ if(data.result[i].status=="Active"){
  `<td>${i+1}</td>`+
    `<td><img src="/upload/${data.result[i].image}" height="50" width="50" style="object-fit:cover;border-radius:50%;" alt="Avatar"></td>`+
  `<td>`+data.result[i].fullname +`</td>`+
+ `<td>`+data.result[i].unique_id +`</td>`+
  `<td>${data.result[i].telephone  }</td>`+
   `<td>${data.result[i].houseNo} </td>`+
  `<td>${data.result[i].houseType}</td>`+
@@ -330,6 +335,7 @@ if(data.result[i].status=="Active"){
        `<td>${i+1}</td>`+
    `<td><img src="/img/avatar.svg" height="50" width="50" alt="Avatar"></td>`+
  `<td>`+data.result[i].fullname +`</td>`+
+ `<td>`+data.result[i].unique_id +`</td>`+
  `<td>${data.result[i].telephone  }</td>`+
   `<td>${data.result[i].houseNo} </td>`+
  `<td>${data.result[i].houseType}</td>`+
@@ -366,6 +372,7 @@ else{
        `<td>${i+1}</td>`+
     `<td><img src="/upload/${data.result[i].image}" height="50" width="50" style="object-fit:cover;border-radius:50%;" alt="Avatar"></td>`+
  `<td>`+data.result[i].fullname +`</td>`+
+ `<td>`+data.result[i].unique_id +`</td>`+
  `<td>${data.result[i].telephone  }</td>`+
   `<td>${data.result[i].houseNo} </td>`+
  `<td>${data.result[i].houseType}</td>`+
@@ -399,6 +406,7 @@ else if(!data.result[i].image){
        `<td>${i+1}</td>`+
    `<td><img src="/img/avatar.svg" height="50" width="50" alt="Avatar"></td>`+
  `<td>`+data.result[i].fullname +`</td>`+
+ `<td>`+data.result[i].unique_id +`</td>`+
  `<td>${data.result[i].telephone  }</td>`+
   `<td>${data.result[i].houseNo} </td>`+
  `<td>${data.result[i].houseType}</td>`+

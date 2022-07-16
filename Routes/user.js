@@ -421,9 +421,10 @@ exports.add_tenant=(req,res)=>{
        let telephone=post.telephone;
        let fullname= post.name;
        let driveNo=post.driveNo
+       let Uid=makeId()
        let password=bcrypt.hashSync(post.telephone,14)
-       status="Active"
-       const sql = "INSERT INTO tenant(fullname,username,telephone,password,status) VALUES ('" + fullname + "','" + username + "','" + telephone + "','" + password + "','" + status + "')";
+       let status="Active"
+       const sql = "INSERT INTO tenant(fullname,username,telephone,password,status,unique_id) VALUES ('" + fullname + "','" + username + "','" + telephone + "','" + password + "','" + status + "','" + Uid + "')";
        const sql1="Update resident_house set telId=? where houseNo=? and driveNo=?"
  
    let insertSql=  connection.query(sql)
@@ -451,7 +452,7 @@ exports.occupant_list=(req,res)=>{
 let userId=req.session.userId
    let profile=`select user.fullname,role from user where userId=${userId}`;
      let sql=`SELECT tenant.fullname as resident,tenant.telephone as resident_telephone, 
-   resident_house.houseNo, resident_house.houseType,resident_house.driveNo,occupants.fullname as occupant
+   resident_house.houseNo, resident_house.houseType,resident_house.driveNo,occupants.fullname,occupants.unique_id as occupant
 ,occupants.telephone,occupants.gender
   FROM tenant INNER JOIN resident_house ON tenant.tenId=resident_house.telId
  INNER JOIN occupants ON occupants.telId=tenant.tenId`
@@ -466,7 +467,7 @@ let userId=req.session.userId
 exports.resident_list=(req,res)=>{
    let userId=req.session.userId
    let profile=`select user.fullname,role from user where userId=${userId}`;
-     let sql=`SELECT tenant.fullname,tenant.tenId ,tenant.image ,tenant.telephone, resident_house.houseNo, resident_house.houseType,resident_house.driveNo,tenant.status
+     let sql=`SELECT tenant.fullname,tenant.tenId ,tenant.image ,tenant.telephone,tenant.unique_id, resident_house.houseNo, resident_house.houseType,resident_house.driveNo,tenant.status
       FROM tenant INNER JOIN resident_house ON tenant.tenId=resident_house.telId`
    connection.query(sql,(err,result)=>{
       connection.query(profile,(err,profile)=>{
@@ -839,10 +840,10 @@ exports.add_occupants=(req,res)=>{
       let gender=JSON.stringify(post.gender) 
        let telephone=JSON.stringify(post.telephone) 
        let fullname= JSON.stringify(post.fullname) 
-
+      let Uid=JSON.stringify(makeId())
       telId = req.session.Id;
       if(!req.files){
-          const sql = `INSERT INTO occupants(telId,fullname,telephone,email,gender) VALUES (${telId},${ fullname} , ${telephone} ,${email},${gender});`
+          const sql = `INSERT INTO occupants(telId,fullname,telephone,email,gender,unique_id) VALUES (${telId},${ fullname} , ${telephone} ,${email},${gender},${Uid});`
       connection.query(sql, (err, result)=> {
          console.log(err)
       res.send("Occupants Added Successfully")
@@ -859,7 +860,7 @@ if(req.files.image.mimetype=="image/jpeg" || req.files.image.mimetype=="image/pn
 
                         return res.status(500).send(err);
                      }
-       const sql = `INSERT INTO occupants(telId,image,fullname,telephone,email,gender) VALUES (${telId},${img},${ fullname} , ${telephone} ,${email},${gender});`
+       const sql = `INSERT INTO occupants(telId,image,fullname,telephone,email,gender,unique_id) VALUES (${telId},${img},${ fullname} , ${telephone} ,${email},${gender},${Uid});`
       connection.query(sql, function(err, result) {
       console.log(err)
       res.send("Occupants Added Successfully")
@@ -869,6 +870,22 @@ if(req.files.image.mimetype=="image/jpeg" || req.files.image.mimetype=="image/pn
 }
             }       
 }
+
+exports.update_occupant=()=>{
+   const sql = `select * from occupants`
+   connection.query(sql, (err, result)=> {
+   console.log(err)
+   const sql = `update occupants set unique_id=${Uid} where id=${result.id});`
+   connection.query(sql, function(err, result) {
+   console.log(err)
+    }); 
+   res.send("Occupants Updated Successfully")
+    }); 
+   
+   }
+
+
+
 exports.user_status_payment=(req,res)=>{
    let id=req.params.id
    let body=req.body
@@ -1583,12 +1600,13 @@ exports.add_business_user=(req,res)=>{
         let driveNo=JSON.stringify(post.driveNo);
        let password=bcrypt.hashSync(post.telephone,14)   
        let telephone=post.telephone;
+       let Uid=JSON.stringify(makeId())
        let role="BusinessOwner"
        let username= post.name;
        let no_shop= JSON.stringify(post.no_shop);
-       status="Active"
+      let status="Active"
       telId = req.session.Id;
-      let sql1=`insert into business_meta(shop_name,driveNo,no_shop,userId) values(${shop_name},${no_shop},${driveNo},?)`
+      let sql1=`insert into business_meta(shop_name,driveNo,no_shop,userId,unique_id) values(${shop_name},${driveNo},${no_shop},?,${Uid})`
        const sql = "INSERT INTO user(fullname,username,role,telephone,password,status) VALUES ('" + fullname + "','" + username + "','"+role+ "','"+telephone+ "','"+password+"','" + status + "')";
       let insertSql=  connection.query(sql)
          let query=()=>{
@@ -1612,6 +1630,7 @@ exports.add_business_user=(req,res)=>{
          })
 
  }
+
 
 
  exports.tenant_login =(req,res) => {
@@ -2326,7 +2345,7 @@ connection.query(profile,(err,profile)=>{
 exports.get_business=(req,res)=>{
    let userId=req.session.userId
    let profile=`select fullname,role from user where userId=${userId}`
-let sql=`select user.userId, user.fullname, user.telephone, user.status, business_meta.shop_name,business_meta.driveNo
+let sql=`select user.userId, user.fullname, user.telephone, user.status, business_meta.shop_name,business_meta.unique_id,business_meta.driveNo
  from business_meta inner join  user
 on user.userId=business_meta.userId where user.role="BusinessOwner"`
 connection.query(sql,(err,result)=>{

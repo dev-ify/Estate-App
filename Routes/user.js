@@ -452,7 +452,7 @@ exports.occupant_list=(req,res)=>{
 let userId=req.session.userId
    let profile=`select user.fullname,role from user where userId=${userId}`;
      let sql=`SELECT tenant.fullname as resident,tenant.telephone as resident_telephone, 
-   resident_house.houseNo, resident_house.houseType,resident_house.driveNo,occupants.fullname,occupants.unique_id as occupant
+   resident_house.houseNo, resident_house.houseType,resident_house.driveNo,occupants.fullname as occupant,occupants.unique_id 
 ,occupants.telephone,occupants.gender
   FROM tenant INNER JOIN resident_house ON tenant.tenId=resident_house.telId
  INNER JOIN occupants ON occupants.telId=tenant.tenId`
@@ -1568,8 +1568,9 @@ on user.userId=business_meta.userId where user.role="BusinessOwner" && business_
        let telephone=post.telephone;
        let role="ShuttleOwner"
        let username= post.fullname;
-       status="Active"
-      let sql1=`insert into shuttle_meta(no_bus,userId) values(${no_bus},?)`
+       let Uid=JSON.stringify(makeId())
+       let status="Active"
+      let sql1=`insert into shuttle_meta(no_bus,unique_id,userId) values(${no_bus},${Uid},?)`
        const sql = "INSERT INTO user(fullname,username,role,telephone,password,status) VALUES ('" + fullname + "','" + username + "','"+role+ "','"+telephone+ "','"+password+"','" + status + "')";
       let insertSql=  connection.query(sql)
          let query=()=>{
@@ -2356,7 +2357,7 @@ connection.query(profile,(err,profile)=>{
 }
 
 exports.get_shuttle=(req,res)=>{
-let sql=`select user.userId, user.fullname,user.username, user.telephone, user.status,user.email, shuttle_meta.no_bus
+let sql=`select user.userId, user.fullname,user.username, user.telephone, user.status,user.email, shuttle_meta.no_bus,shuttle_meta.unique_id
  from shuttle_meta inner join  user
 on user.userId=shuttle_meta.userId where user.role="ShuttleOwner"`
 let id=req.session.userId

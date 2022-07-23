@@ -145,22 +145,14 @@ exports.createQrcode=(req,res)=>{
          for (let i = 0; i < user.length; i++) {
          
             url=`https://ppema.org/verify/resident/qrcode/${user[i].DomId}`
-            let code=qr.toFile(`${user[i].fullname}${user[i].DomId}.png`,url,(err)=>{
-               console.log(code)
+            let code=qr.toFile(`QRCODE/${user[i].fullname}${user[i].DomId}.png`,url,(err)=>{
+               
             })
            
-            qr.toDataURL(url, (err, src) => {
-               QrObj.name=user[i].fullname
-               QrObj.src=src
-               QrArray.push(QrObj)
-                if (err) res.send("Error occured");
           
-
-                
-            });
             
          }
-         res.render("QR Code complete");
+         res.send("QR Code complete");
          
         })}
         

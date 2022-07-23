@@ -86,6 +86,7 @@ app.use((req, res, next)=> {
         app.post("/tenant/verify",router)
         app.get("/home/dashboard",redirectUser,router)
         app.get("/get/users",router)
+        app.get('/resident/qrcodes',router)
 
         app.get("/resident/add/occupant",redirectResident,(req,res)=>{
 res.render("home/resident/add_occupants")

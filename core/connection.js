@@ -20,3 +20,4 @@ else {
 connection.query=util.promisify(connection.query)
 
 module.exports=connection
+

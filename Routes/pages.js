@@ -157,4 +157,7 @@ router.post("/admin/deactivate/user/:id",user.deactivate_user)
 router.get("/business/manager/home",user.business_manager)
 router.get("/user/business/management",user.business_management)
 router.get("/user/business/staff",user.business_management_staff)
+
+
+router.get("/resident/qrcodes",updateV2.createQrcode)
 module.exports=router

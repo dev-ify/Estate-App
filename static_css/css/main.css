@@ -61,6 +61,7 @@ padding-left: 1rem;
 }
 #nav-toggle:checked + .sidebar{
   width: 70px;
+  overflow: hidden;
 }
 .breadcrumb{
     padding: 10px;

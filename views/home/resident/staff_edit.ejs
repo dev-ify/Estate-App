@@ -1,7 +1,13 @@
 <%- include('./partial/header') %>
-    <body class="bg-gray-100 flex bg-local" style="background: url('./assets/svg/architect.svg')">
-        <div class="bg-gray-100 mx-auto max-w-6xl bg-white py-20 px-12 lg:px-24 shadow-xl mb-24">
-
+   
+<div class="bg-gray-100 mx-auto max-w-6xl bg-white py-20 px-12 lg:px-24 shadow-xl mb-24">
+    <section class="py-8 relative">
+        <a href="#" onclick=back() class="nav__link absolute left-0">
+       <i class="material-icons nav__icon">arrow_back</i>
+       <span class="nav__text font-body">Back</span>
+     </a>
+               <h3 class="text-center font-bold text-lg">Add Domestic Staff</h3>
+             </section>
             <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
                 <div class="-mx-3 md:flex mb-6">
                     <div class="md:w-1/2 px-3 mb-6 md:mb-0">
@@ -125,6 +131,7 @@
                                 <option value="Baby Sitter">Baby Sitter</option>
                                 <option value="Laundry">Laundry </option>
                                 <option value="House Keeper">House Keeper</option>
+                                <option value="Others">Others</option>
 
 
                             </select>
@@ -144,12 +151,17 @@
             </div>
 
 
-            <h4 id="matchlist" class="text-green font-bold py-2 px-4 border-b-4 ">
+            <h4 id="matchlist" class="text-green font-bold py-2 px-4 ">
 
             </h4>
         </div>
     </body>
     <script>
+
+function back() {
+               history.back(-1)
+            }
+
         function load() {
             let btn = document.getElementById("submit")
 
@@ -166,7 +178,6 @@
             let requestObj = "fullname=" + obj.fullname.value + "&telephone=" + obj.telephone.value + "&address=" + obj.address.value + "&location=" + obj.location.value + "&jobType=" + obj.jobType.value + "&department=" + obj.department.value
 
             let xhr = new XMLHttpRequest()
-            console.log(xhr.readyState)
 
             xhr.onload = () => {
                 alert(xhr.responseText)

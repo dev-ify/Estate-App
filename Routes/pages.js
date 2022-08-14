@@ -55,6 +55,10 @@ router.post("/admin/user/status/payment/:id",user.user_status_payment)
 router.get("/residents/search/:name",user.residents_search)
 router.post("/resident/make/payment",user.make_payment_resident)
 router.post("/u/change/password",user.u_password)
+
+router.post("/admin/add/staff",user.admin_add_dom)
+
+
 router.post("/admin/make/payment",user.make_payment)
 router.get("/u/password/change/",user.fetch_user)
 router.get("/business/search/:name",user.business_search)

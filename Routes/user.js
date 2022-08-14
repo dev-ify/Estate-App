@@ -727,7 +727,7 @@ csvtojson().fromFile(path.resolve(__dirname,"../static_css/data","data2.csv")).t
        let location=JSON.stringify(post.location) 
        let telephone=JSON.stringify(post.telephone) 
        let fullname= JSON.stringify(post.fullname) 
-       status="Active"
+      let status="Active"
       telId = req.session.Id;
       if(!req.files){
           const sql = `INSERT INTO domestic_staff(Uuid,telId,fullname,telephone,address,location,jobType,department,status) VALUES (${Uuid},${telId},${ fullname} , ${telephone} ,${address},${location},${jobType},${department},"Active");`
@@ -759,6 +759,30 @@ if(req.files.image.mimetype=="image/jpeg" || req.files.image.mimetype=="image/pn
             }         
     
  }
+
+ exports.admin_add_dom=(req,res)=>{
+   let post  = req.body;
+   console.log(req.body)
+   let department=JSON.stringify(post.department) 
+   let Uuid=JSON.stringify(makeId())
+   let address=JSON.stringify(post.address) 
+   let jobType=JSON.stringify(post.jobType) 
+    let location=JSON.stringify(post.location) 
+    let telephone=JSON.stringify(post.telephone) 
+    let fullname= JSON.stringify(post.fullname) 
+   let status="Active"
+   let telId = post.tenId;
+       const sql = `INSERT INTO domestic_staff(Uuid,telId,fullname,telephone,address,location,jobType,department,status) VALUES (${Uuid},${telId},${ fullname} , ${telephone} ,${address},${location},${jobType},${department},"Active");`
+   connection.query(sql, function(err, result) {
+   console.log(err)
+   res.send("Domestic Staff Have Been Added Successfully")
+    }); 
+   }
+
+
+
+
+
 exports.resident_deposit_list=(req,res)=>{
    let userId=req.session.userId
    let profile=`select from user where userId=${userId}`
@@ -1169,10 +1193,9 @@ exports.u_password=(req,res)=>{
 
 exports.residents=(req,res)=>{
    let driveNo=req.params.drive
-    const sql = `SELECT tenant.fullname,tenant.tenId ,tenant.image ,tenant.telephone, resident_house.houseNo, resident_house.houseType,resident_house.driveNo,tenant.status
+    const sql = `SELECT tenant.fullname,tenant.tenId ,tenant.image,tenant.unique_id ,tenant.telephone, resident_house.houseNo, resident_house.houseType,resident_house.driveNo,tenant.status
       FROM tenant INNER JOIN resident_house ON tenant.tenId=resident_house.telId  where driveNo=${driveNo}  `;
          connection.query(sql, function(err, result) {
-            console.log(err)
             res.send({result})
             });  
 }
@@ -1745,24 +1768,29 @@ exports.add_apartment=(req,res)=>{
        let driveNo=JSON.stringify( post.driveNo);
        let apartment_type=JSON.stringify(post.houseType);
        let amount
-       if(apartment_type.includes("2 bed")){
-         amount=67000
-       }
-       else if(apartment_type.includes ("3 bed")){
-            amount=70000
-       }
-       else if(apartment_type.includes("4 bed duplex") || apartment_type.includes("5 bed duplex")){
-         amount=82000
-       }
-       console.log(amount)
-       console.log(houseNo)
+       apartment_type=apartment_type.toLocaleUpperCase()
        console.log(apartment_type)
-     
-    let sql=`INSERT INTO resident_house(driveNo,houseNo,houseType,amount) VALUES (${driveNo }, ${houseNo} ,${apartment_type},${amount })`;
-   connection.query(sql,(err,result)=>{
-     console.log(err)
-   res.send("Apartment Added Successfully")
-})
+       try {
+         if(apartment_type.includes('2 BEDROOM')){
+            amount=67000
+          }
+          else if(apartment_type.includes ("3 BEDROOM")){
+               amount=70000
+          }
+          else if(apartment_type.includes("4 BEDROOM duplex") || apartment_type.includes("5 BEDROOM duplex")){
+            amount=82000
+          }
+          console.log(amount)
+          let sql=`INSERT INTO resident_house(driveNo,houseNo,houseType,amount) VALUES (${driveNo }, ${houseNo} ,${apartment_type},${amount })`;
+      connection.query(sql,(err,result)=>{
+        console.log(err)
+      res.send("Apartment Added Successfully")
+   })
+       } catch (error) {
+         console.log(error)
+         return res.send("Error Encountered")
+       }
+       
 } 
 
 exports.download_business_paid=(req,res)=>{
@@ -2052,8 +2080,8 @@ exports.shuttle_deposit= (req,res)=>{
 }
 exports.edit_domestic=(req,res)=>{
        let {id} =req.params
-let sql=`SELECT * from domestic_staff where telId`
-         connection.query(sql,[id],(err,result)=>{
+let sql=`SELECT * from domestic_staff where DomId=${id}`
+         connection.query(sql,(err,result)=>{
          if (err) throw err
          else  
          res.render("home/resident/staff_edit.ejs",{body:result})
@@ -2580,8 +2608,8 @@ exports.update_house=(req,res)=>{
 
 exports.delete_domestic=(req,res)=>{
    let {id}=req.params
-   let sql=`delete from domestic_staff where DomId=?`
-   connection.query(sql,[id],(err,result)=>{
+   let sql=`delete from domestic_staff where DomId=${id}`
+   connection.query(sql,(err,result)=>{
 res.send("Domestic Staff Deleted Successfully")
    })
 }

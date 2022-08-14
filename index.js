@@ -116,6 +116,13 @@ res.render("home/resident/dashboard_copy.ejs")
         app.get("/admin/deposit/shuttle",redirectHome,(req,res)=>{
             res.render("home/admin/pending_shuttle.ejs")
         })
+
+
+        app.get("/admin/add/domestic/staff",redirectHome,(req,res)=>{
+            res.render("home/admin/add_dom_staff.ejs")
+        })
+
+        app.post("/admin/add/staff",router)
         app.get("/resident/download/paid",router)
         app.use("/logout",router)
         app.get("/admin/list/resident/active",router)

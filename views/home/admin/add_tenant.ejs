@@ -122,7 +122,6 @@ user_name.textContent=data[0].fullname
          function clicked() {
           let select=document.getElementById("driveNo") 
           let val= select.value 
-          console.log(val)
           let xhr = new XMLHttpRequest();
           let requestObj="driveNo="+val;
           console.log(xhr.readyState);
@@ -143,7 +142,6 @@ user_name.textContent=data[0].fullname
     let residents=document.getElementById("houseNo") 
     residents.innerHTML='' 
     for (let i = 0; i < data.length; i++) {
-      console.log(data.length)
        let option=document.createElement("option")
        option.innerHTML=`<option value="${data[i].houseNo}">${data[i].houseNo}</option>`
        residents.append(option)

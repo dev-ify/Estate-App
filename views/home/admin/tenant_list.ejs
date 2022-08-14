@@ -256,7 +256,6 @@ function clicked() {
           xhr.onload = () => {
             let count=0
             let rowCount=table.rows.length         
-             console.log(`drive ${xhr.responseText}`)
               let data=JSON.parse(xhr.responseText)
                        for(let i=count;i<rowCount;i++){
               table.deleteRow(count)
